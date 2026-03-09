@@ -1,0 +1,36 @@
+{
+  "user_agent": "Your Name (your-email@example.com)",
+  "sec_api_io_key": "91fd6910ddf38d2b9941841e6141dc588223d95091f78be2d2565509a32ada4b",
+  "financial_tags": {
+    "income_statement": {
+      "total_revenue": [
+        "Revenues",
+        "RevenueFromContractWithCustomerExcludingAssessedTax"
+      ],
+      "gross_profit": [
+        "GrossProfit"
+      ],
+      "net_income": [
+        "NetIncomeLoss"
+      ],
+      "eps_diluted": [
+        "EarningsPerShareDiluted"
+      ]
+    },
+    "balance_sheet": {
+      "cash_and_equivalents": [
+        "CashAndCashEquivalentsAtCarryingValue"
+      ],
+      "total_assets": [
+        "Assets"
+      ],
+      "total_liabilities": [
+        "Liabilities"
+      ],
+      "stockholders_equity": [
+        "StockholdersEquity"
+      ]
+    }
+  },
+  "acceptable_forms": ["10-Q", "10-K", "8-K"]
+}
