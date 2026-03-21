@@ -35,11 +35,16 @@ class RAGPipeline:
 
         context = "\n\n".join(retrieved_chunks)
 
+        # UPDATED PROMPT: Tailored for financial narrative + numerical data
         prompt = f"""
-You are a helpful assistant.
+You are an expert financial AI assistant.
 
-Answer ONLY using the context below.
-If the answer is not contained in the context, say "I don't know."
+Answer ONLY using the provided context below. The context contains a mix of narrative text from SEC filings (like MD&A) and structured numerical metrics (Income Statement, Balance Sheet).
+
+Rules:
+1. If the context contains numerical data, be precise with the numbers and Year-over-Year (YoY) changes.
+2. If the user asks for a specific metric (e.g., "Total Revenue"), quote the exact value and the YoY change provided in the context.
+3. If the answer is not contained in the context, say "I don't know based on the provided documents."
 
 Context:
 {context}

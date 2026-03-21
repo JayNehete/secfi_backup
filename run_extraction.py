@@ -37,39 +37,6 @@ def run_all_extractions(ingest_to_vector=False, use_crawler=False):
         'financial_text': financial_text_results
     }
 
-    # if ingest_to_vector:
-    #     print("\n" + "=" * 80)
-    #     print("INGESTING TO VECTOR STORE")
-    #     print("=" * 80)
-
-    #     try:
-    #         from ingest_filings import SECIngestionPipeline
-
-    #         pipeline = SECIngestionPipeline(
-    #             persist_directory='./chroma_db',
-    #             embedding_model='all-MiniLM-L6-v2'
-    #         )
-
-    #         total_ingested = 0
-    #         for filing_data in financial_text_results.get('results', []):
-    #             added = pipeline.ingest_financial_text(filing_data)
-    #             if added:
-    #                 total_ingested += added
-
-    #         print(f"\nTotal chunks ingested to vector store: {total_ingested}")
-
-    #         stats = pipeline.get_pipeline_stats()
-    #         print("\nVector Store Statistics:")
-    #         print(f"  Total Documents: {stats['vector_store']['total_documents']}")
-    #         print(f"  Collection: {stats['vector_store']['collection_name']}")
-
-    #     except ImportError as e:
-    #         print(f"\nERROR: Vector store not available ({e})")
-    #         print("To enable vector store, install: pip install chromadb sentence-transformers numpy")
-    #     except Exception as e:
-    #         print(f"\nERROR during vector ingestion: {e}")
-
-    # return results
 
 if __name__ == "__main__":
     import sys

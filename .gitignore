@@ -1,0 +1,4 @@
+chunks.pkl
+faiss_index
+extraction_results/
+venv/

@@ -36,24 +36,28 @@ def format_financial_json_to_text(data):
         text_blocks.append(f"\n{section_name}:")
         
         for metric, vals in section_data.items():
-            curr_obj = vals.get('current', {})
-            prior_obj = vals.get('prior', {})
+            # Use `or {}` so that if the value is explicitly `null` (None), it becomes an empty dict
+            curr_obj = vals.get('current') or {}
+            prior_obj = vals.get('prior') or {}
             
-            # Get values
+            # Get values safely
             curr_val = curr_obj.get('val', 'N/A')
             prior_val = prior_obj.get('val', 'N/A')
             
-            # Get Fiscal Year and Period context (e.g., "Q3 2025")
+            # Get Fiscal Year and Period context (fallback to generic text if null)
             curr_period = f"{curr_obj.get('fp', '')} {curr_obj.get('fy', '')}".strip()
+            curr_period = curr_period if curr_period else "the current period"
+            
             prior_period = f"{prior_obj.get('fp', '')} {prior_obj.get('fy', '')}".strip()
+            prior_period = prior_period if prior_period else "the prior period"
             
             # Format YoY as a percentage with "increase/decrease" language
-            yoy = vals.get('yoy_percent_change', 'N/A')
+            yoy = vals.get('yoy_percent_change')
             if isinstance(yoy, (int, float)):
                 direction = "increase" if yoy > 0 else "decrease"
                 yoy_str = f"{abs(yoy) * 100:.2f}% {direction}"
             else:
-                yoy_str = str(yoy)
+                yoy_str = "N/A"
                 
             metric_name = metric.replace('_', ' ').title()
             
