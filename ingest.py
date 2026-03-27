@@ -17,41 +17,28 @@ def format_financial_json_to_text(data):
     cik = data.get('cik', 'Unknown CIK')
     date = data.get('latest_period_end_date', 'Unknown Date')
     form = data.get('form_type', 'SEC filing')
-    filed_date = data.get('filed_date', 'Unknown Date')
     
-    text_blocks = [
-        f"Financial Numerical Data for {company} (CIK: {cik}). "
-        f"This data is from their {form} filed on {filed_date}, for the period ending {date}:"
-    ]
+    text_blocks = []
     
     sections = [
-        ('Income Statement Metrics', data.get('income_statement', {})),
-        ('Balance Sheet Metrics', data.get('balance_sheet', {}))
+        ('Income Statement', data.get('income_statement', {})),
+        ('Balance Sheet', data.get('balance_sheet', {}))
     ]
     
     for section_name, section_data in sections:
         if not section_data:
             continue
             
-        text_blocks.append(f"\n{section_name}:")
-        
         for metric, vals in section_data.items():
-            # Use `or {}` so that if the value is explicitly `null` (None), it becomes an empty dict
             curr_obj = vals.get('current') or {}
             prior_obj = vals.get('prior') or {}
             
-            # Get values safely
             curr_val = curr_obj.get('val', 'N/A')
             prior_val = prior_obj.get('val', 'N/A')
             
-            # Get Fiscal Year and Period context (fallback to generic text if null)
-            curr_period = f"{curr_obj.get('fp', '')} {curr_obj.get('fy', '')}".strip()
-            curr_period = curr_period if curr_period else "the current period"
+            curr_period = f"{curr_obj.get('fp', '')} {curr_obj.get('fy', '')}".strip() or "the current period"
+            prior_period = f"{prior_obj.get('fp', '')} {prior_obj.get('fy', '')}".strip() or "the prior period"
             
-            prior_period = f"{prior_obj.get('fp', '')} {prior_obj.get('fy', '')}".strip()
-            prior_period = prior_period if prior_period else "the prior period"
-            
-            # Format YoY as a percentage with "increase/decrease" language
             yoy = vals.get('yoy_percent_change')
             if isinstance(yoy, (int, float)):
                 direction = "increase" if yoy > 0 else "decrease"
@@ -61,10 +48,13 @@ def format_financial_json_to_text(data):
                 
             metric_name = metric.replace('_', ' ').title()
             
-            # Construct the highly detailed sentence
-            sentence = (f"- {metric_name}: The current value for {curr_period} was {curr_val}. "
-                        f"The prior period value for {prior_period} was {prior_val}. "
-                        f"This represents a Year-over-Year (YoY) {yoy_str}.")
+            # THE FIX: Inject Company, Form, and Date into EVERY sentence so chunks are never orphaned.
+            sentence = (
+                f"For {company} (CIK: {cik}) in their {form} filing for the period ending {date}, "
+                f"the {section_name} shows {metric_name} was {curr_val} for {curr_period}. "
+                f"Compared to the prior period ({prior_period}) value of {prior_val}, "
+                f"this is a Year-over-Year (YoY) {yoy_str}."
+            )
             
             text_blocks.append(sentence)
             
