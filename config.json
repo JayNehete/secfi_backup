@@ -30,6 +30,11 @@
       "stockholders_equity": [
         "StockholdersEquity"
       ]
+    },
+    "cash_flow": {
+      "operating_cash_flow": [
+        "NetCashProvidedByUsedInOperatingActivities"
+      ]
     }
   },
   "acceptable_forms": ["10-Q", "10-K", "8-K"]

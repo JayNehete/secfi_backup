@@ -166,7 +166,8 @@ def extract_financial_data(cik):
         'extraction_timestamp': datetime.now().isoformat(),
         'latest_period_end_date': latest_period_end.strftime('%Y-%m-%d'),
         'income_statement': {},
-        'balance_sheet': {}
+        'balance_sheet': {},
+        'cash_flow': {}
     }
     
     # 2. Process Income Statement tags
@@ -180,6 +181,11 @@ def extract_financial_data(cik):
         fact_data = get_comparable_facts(facts_data, tag_list, acceptable_forms, latest_period_end)
         if fact_data:
             result['balance_sheet'][key] = fact_data
+
+    for key, tag_list in config.get('financial_tags', {}).get('cash_flow', {}).items():
+        fact_data = get_comparable_facts(facts_data, tag_list, acceptable_forms, latest_period_end)
+        if fact_data:
+            result['cash_flow'][key] = fact_data
             
     # Add filing metadata using the first successfully extracted BS item (Total Assets is a good proxy)
     metadata_source = result['balance_sheet'].get('total_assets', {}).get('current', {})
