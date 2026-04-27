@@ -1,5 +1,5 @@
 {
-  "user_agent": "Your Name (your-email@example.com)",
+  "user_agent": "email@example.com",
   "sec_api_io_key": "91fd6910ddf38d2b9941841e6141dc588223d95091f78be2d2565509a32ada4b",
   "financial_tags": {
     "income_statement": {
@@ -9,6 +9,9 @@
       ],
       "gross_profit": [
         "GrossProfit"
+      ],
+      "operating_income": [
+        "OperatingIncomeLoss"
       ],
       "net_income": [
         "NetIncomeLoss"
@@ -23,6 +26,9 @@
       ],
       "total_assets": [
         "Assets"
+      ],
+      "retained_earnings": [
+        "RetainedEarningsAccumulatedDeficit"
       ],
       "total_liabilities": [
         "Liabilities"
