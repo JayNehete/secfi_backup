@@ -4,6 +4,7 @@ import json
 import requests
 from datetime import datetime
 from bs4 import BeautifulSoup
+from url_finder import get_latest_filers, get_filing_url # Assumes you have these in your url_finder
 
 # This will be updated to point to S3 later in Phase 2
 OUTPUT_DIR = "extraction_results"
@@ -139,3 +140,33 @@ def extract_and_save_narrative(cik, company_name, url, form_type, date):
     except Exception as e:
         print(f"❌ Error extracting narrative text: {e}")
         return None
+    
+def run_edgar_text_extraction():
+    """Master loop to process the latest filers using edgar-crawler logic."""
+    print("\n" + "="*50)
+    print("🚀 STARTING ENGINE 3: EDGAR-CRAWLER NARRATIVE EXTRACTION")
+    print("="*50)
+    
+    filers = get_latest_filers(limit=5) # Adjust limit as needed
+    
+    for filer in filers:
+        cik = str(filer['cik']).zfill(10)
+        company_name = filer['name']
+        form_type = filer['form']
+        date = filer['date']
+        
+        print(f"\nProcessing {company_name} ({cik}) - {form_type}")
+        
+        # 1. Get the URL
+        url = get_filing_url(cik, form_type)
+        if not url:
+            print(f"⚠️ Could not find {form_type} URL for {company_name}. Skipping.")
+            continue
+            
+        # 2. Extract and save using the edgar-crawler logic
+        extract_and_save_narrative(cik, company_name, url, form_type, date)
+        
+    print("\n✅ ENGINE 3 COMPLETE: Narrative JSONs generated.")
+
+if __name__ == "__main__":
+    run_edgar_text_extraction()

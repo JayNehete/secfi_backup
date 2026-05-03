@@ -1,5 +1,6 @@
 from numerical_extractor import run_numerical_extraction
 from financial_text_extractor import run_financial_text_extraction
+from edgar_text_extractor import run_edgar_text_extraction
 
 def run_all_extractions(ingest_to_vector=False, use_crawler=False):
     print("=" * 80)
@@ -19,6 +20,12 @@ def run_all_extractions(ingest_to_vector=False, use_crawler=False):
 
     print("-" * 80)
     financial_text_results = run_financial_text_extraction()
+
+    print()
+    print("-" * 80)
+    print()
+    print("Starting EDGAR-crawler extraction")
+    run_edgar_text_extraction()
 
     print("\n" + "=" * 80)
     print("EXTRACTION COMPLETE")
