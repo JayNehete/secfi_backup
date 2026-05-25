@@ -4,6 +4,7 @@ import glob
 import faiss
 import pickle
 import numpy as np
+import sys  # <-- 1. Import sys
 from sentence_transformers import SentenceTransformer
 from mcp.server.fastmcp import FastMCP
 
@@ -12,21 +13,20 @@ OUTPUT_DIR = "extraction_results"
 INDEX_PATH = "faiss_index"
 CHUNKS_PATH = "chunks.pkl"
 
-print("🔄 Initializing Triple Engine MCP Server...")
-# This creates the server object that the AI Client will connect to
+sys.stderr.write("🔄 Initializing Triple Engine MCP Server...\n") # <-- 2. Change prints to stderr
 mcp = FastMCP("SEC_Financial_Research_Server")
 
 # --- Load RAG Resources into Memory ---
 try:
-    print("Loading embedding model...")
+    sys.stderr.write("Loading embedding model...\n")
     embedder = SentenceTransformer("all-MiniLM-L6-v2")
-    print("Loading FAISS index...")
+    sys.stderr.write("Loading FAISS index...\n")
     index = faiss.read_index(INDEX_PATH)
     with open(CHUNKS_PATH, "rb") as f:
         chunks = pickle.load(f)
-    print("✅ RAG Engine Loaded!")
+    sys.stderr.write("✅ RAG Engine Loaded!\n")
 except Exception as e:
-    print(f"⚠️ Warning: RAG Engine failed to load. Check if ingest.py has been run. Error: {e}")
+    sys.stderr.write(f"⚠️ Warning: RAG Engine failed to load. Error: {e}\n")
     embedder, index, chunks = None, None, None
 
 # ==========================================
@@ -115,7 +115,7 @@ def get_specific_filing_item(cik: str, item_name: str) -> str:
 # SKILL 3: ENGINE 2 (SEMANTIC RAG)
 # ==========================================
 @mcp.tool()
-def query_narrative_rag(query: str, cik: str = "") -> str:
+def query_narrative_rag(query: str, cik: str | None = None) -> str:
     """
     Skill 3: Semantic Narrative RAG.
     Use this tool to search the vector database for qualitative context, strategy, or risks.
@@ -126,6 +126,10 @@ def query_narrative_rag(query: str, cik: str = "") -> str:
     """
     if index is None or embedder is None:
         return "Error: RAG index is offline."
+        
+    # Safety check if the AI passes null
+    if cik is None:
+        cik = ""
         
     # If the AI provides a CIK, we fetch more chunks initially to filter them down
     k_fetch = 20 if cik else 5
