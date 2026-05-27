@@ -4,7 +4,7 @@ import glob
 import faiss
 import pickle
 import numpy as np
-import sys  # <-- 1. Import sys
+import sys  
 from sentence_transformers import SentenceTransformer
 from mcp.server.fastmcp import FastMCP
 
@@ -13,7 +13,7 @@ OUTPUT_DIR = "extraction_results"
 INDEX_PATH = "faiss_index"
 CHUNKS_PATH = "chunks.pkl"
 
-sys.stderr.write("🔄 Initializing Triple Engine MCP Server...\n") # <-- 2. Change prints to stderr
+sys.stderr.write("🔄 Initializing Triple Engine MCP Server...\n")
 mcp = FastMCP("SEC_Financial_Research_Server")
 
 # --- Load RAG Resources into Memory ---

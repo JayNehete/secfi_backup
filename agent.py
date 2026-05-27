@@ -10,16 +10,13 @@ from langchain_mcp_adapters.tools import load_mcp_tools
 async def run_langgraph_agent():
     print("🧠 Initializing LangGraph Brain...")
     
-    # 1. Connect to your local LLM (e.g., DeepSeek via Ollama)
-    # If you are using standard OpenAI, remove base_url and use your real api_key
     llm = ChatOpenAI(
-        model="llama3.2", # Update this to your exact local model name (e.g., "llama3" or "deepseek-r1")
+        model="llama3.2", 
         base_url="http://localhost:11434/v1", 
         api_key="ollama", 
         temperature=0
     )
 
-    # 2. Define how to start your MCP Server (using 'uv' just like the Inspector did)
     server_params = StdioServerParameters(
         command="uv",
         args=["run", "--with", "mcp", "mcp", "run", "mcp_server.py"]
@@ -32,7 +29,6 @@ async def run_langgraph_agent():
         async with ClientSession(read, write) as session:
             await session.initialize()
             
-            # AUTOMAGIC: This dynamically converts your Python MCP Tools into LangChain Tools!
             tools = await load_mcp_tools(session)
             print(f"✅ Loaded {len(tools)} Skills: {[t.name for t in tools]}")
             
