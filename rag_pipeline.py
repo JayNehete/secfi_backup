@@ -9,17 +9,17 @@ CHUNKS_PATH = "chunks.pkl"
 
 class RAGPipeline:
     def __init__(self):
-        print("🔄 Loading embedding model...")
+        print(" Loading embedding model...")
         self.embedder = SentenceTransformer("all-MiniLM-L6-v2")
 
-        print("🔄 Loading FAISS index...")
+        print(" Loading FAISS index...")
         self.index = faiss.read_index(INDEX_PATH)
 
-        print("🔄 Loading text chunks...")
+        print(" Loading text chunks...")
         with open(CHUNKS_PATH, "rb") as f:
             self.chunks = pickle.load(f)
 
-        print("✅ RAG system ready!")
+        print(" RAG system ready!")
 
     def retrieve(self, query, k=4):
         query_embedding = self.embedder.encode([query])

@@ -18,7 +18,7 @@ def load_agent_skills(skills_dir="skills"):
     compiled_skills = []
     
     if not os.path.exists(skills_dir):
-        print(f"⚠️ Warning: '{skills_dir}' directory not found. Proceeding without custom skills.")
+        print(f" Warning: '{skills_dir}' directory not found. Proceeding without custom skills.")
         return ""
         
     search_path = os.path.join(skills_dir, "*.md")
@@ -83,14 +83,14 @@ async def run_langgraph_agent():
             agent = create_react_agent(
                 model=llm,
                 tools=mcp_tools,
-                state_modifier=full_system_instruction
+                prompt=full_system_instruction
             )
             
-            print("\n🤖 SEC Intelligence Agent Online with Custom Skills.")
+            print("\n SEC Intelligence Agent Online with Custom Skills.")
             print("Type 'exit' or 'quit' to stop.\n")
             
             while True:
-                user_input = input("👨‍💼 You: ")
+                user_input = input(" You: ")
                 if user_input.strip().lower() in ["exit", "quit"]:
                     break
                     
@@ -104,12 +104,12 @@ async def run_langgraph_agent():
                         if "agent" in chunk:
                             message = chunk["agent"]["messages"][-1]
                             if message.content:
-                                print(f"\n🤖 Agent Synthesis:\n{message.content}\n")
+                                print(f"\n Agent Synthesis:\n{message.content}\n")
                         elif "tools" in chunk:
                             message = chunk["tools"]["messages"][-1]
-                            print(f"\n⚙️ Tool Executed [{message.name}] - Processing raw payload...\n")
+                            print(f"\n Tool Executed [{message.name}] - Processing raw payload...\n")
                 except Exception as e:
-                    print(f"\n❌ Execution Error encountered: {e}\n")
+                    print(f"\n Execution Error encountered: {e}\n")
 
 if __name__ == "__main__":
     asyncio.run(run_langgraph_agent())

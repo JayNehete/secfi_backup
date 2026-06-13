@@ -8,7 +8,7 @@ from mcp.client.session import ClientSession
 from langchain_mcp_adapters.tools import load_mcp_tools
 
 async def run_langgraph_agent():
-    print("🧠 Initializing LangGraph Brain...")
+    print(" Initializing LangGraph Brain...")
     
     llm = ChatOpenAI(
         model="llama3.2", 
@@ -30,7 +30,7 @@ async def run_langgraph_agent():
             await session.initialize()
             
             tools = await load_mcp_tools(session)
-            print(f"✅ Loaded {len(tools)} Skills: {[t.name for t in tools]}")
+            print(f" Loaded {len(tools)} Skills: {[t.name for t in tools]}")
             
             # 4. Build the Cyclical LangGraph Agent
             agent = create_react_agent(llm, tools)
@@ -42,7 +42,7 @@ async def run_langgraph_agent():
             
             # 5. The Chat Loop
             while True:
-                user_input = input("\n👨‍💼 You: ")
+                user_input = input("\n You: ")
                 if user_input.lower() in ['exit', 'quit']:
                     break
                     

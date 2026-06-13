@@ -1,0 +1,28 @@
+* operating income yoy
+* we need edgar cralwer just for more stuctured informaion
+* retained earning yoy
+current in mcp adn then futire wrap tji one in llm model
+
+for MCP
+# langchain or langgraph for MCP(for good workflow)
+# ressearch on the above 
+# skills AI agents, agent to agent, keep adding tools to agent 
+# micro-tool for particular desscription. input format and output format.
+# to reduce non-deterministic answers we are using skills. 
+
+# basically research and look into -> langchain, langgraph, skills(MCP)
+# this is the best int heb  
+
+
+# check output from langraph(change to llama3)
+# try skills
+# agent to agent output(? communastic ation)
+# check embeddings for ML model
+# ok so current numerical values and static numerical dat an dget them together for embeddings and (langgraph cqan do it or not?)(THIS SI ALL FOR PREDICTION)this is not the end and this is not the end this 
+this is the correct way to solve this and i am the best int he world adn this is not the best in the world nd i am the best in the world and i ma not the coorect person to discuss this 
+
+
+* summary(+ -)
+* build simple search index to get the precise name to match the name
+* one time large costs 
+* expense inc.
