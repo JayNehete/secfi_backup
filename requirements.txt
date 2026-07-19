@@ -1,0 +1,5 @@
+edgartools
+chromadb
+sentence-transformers
+ollama
+rich
